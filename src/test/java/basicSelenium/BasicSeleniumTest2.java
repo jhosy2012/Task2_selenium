@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -44,14 +45,6 @@ public class BasicSeleniumTest2 {
         driver.findElement(By.id("element-3")).sendKeys("Hola1234");
         driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-        // Explicit Wait
-        //Thread.sleep(5000);
-/*        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        explicitWait.until(ExpectedConditions.elementToBeClickable(By.id("ctl00_HeaderTopControl1_LinkButtonLogout")));
-
-        Assertions.assertTrue(driver.findElement(By.id("ctl00_HeaderTopControl1_LinkButtonLogout")).isDisplayed()
-                                    ,"ERROR login was incorrect");*/
-
         // create
         String nameProject="Proyect";
         driver.findElement(By.id("left_menu_inner")).click();
@@ -64,7 +57,7 @@ public class BasicSeleniumTest2 {
                 ,"ERROR The project was not created");
 
         //updateproyect
-        /*nameProject="project2";
+        nameProject="project2";
         driver.findElement(By.xpath("//*[@id='editor']/div[2]/header/div/div/button[3]")).click();
         Thread.sleep(3000);
         driver.findElement(By.xpath("//div[text()='Editar proyecto']")).click();
@@ -74,23 +67,13 @@ public class BasicSeleniumTest2 {
         Thread.sleep(3000);
         actualResult=driver.findElements(By.xpath(" //span[text()='"+nameProject+"'] ")).size();
         Assertions.assertTrue(actualResult >= 1
-                ,"ERROR The project was not created");*/
-
-        //deleteproyect
-        //driver.findElement(By.xpath("//*[@id='editor']/div[2]/header/div/div/button[3]")).click();
-        //Thread.sleep(5000);
-        //driver.findElement(By.xpath("//div[text()='Eliminar proyecto']")).click();
-        //driver.findElement(By.xpath("//span[text()='Eliminar'] ")).click();
-
-
+                ,"ERROR The project was not created");
 
         // create task
         String Task="Task";
-        //driver.findElement(By.id("quick_add_task_holder")).click();
         driver.findElement(By.xpath("//*[@id=\"editor\"]/div[2]/div/div/ul/li/section/div/ul/li/button")).click();
         driver.findElement(By.xpath("//div[@class='public-DraftStyleDefault-block public-DraftStyleDefault-ltr']")).sendKeys(Task);
         Thread.sleep(1000);
-        //driver.findElement(By.xpath("//div//textarea")).sendKeys("Hola Mundo");
         driver.findElement(By.xpath("//button[@type='submit']")).click();
         Thread.sleep(3000);
         actualResult=driver.findElements(By.xpath(" //div[text()='"+Task+"'] ")).size();
@@ -104,36 +87,29 @@ public class BasicSeleniumTest2 {
             driver.findElement(By.xpath("//div[contains(@class, 'task_content') and text()='" +  Task + "']"))
         ).perform();
         driver.findElement(By.xpath("//div[contains(@class,'task_list_item__actions')]/button[@data-action-hint='task-edit']")).click();
-
-        Thread.sleep(5000);
-        Task="UpTask";
-
-
-        driver.findElement(By.xpath("//div[text()='"+Task+"']")).click();
         Thread.sleep(3000);
-        driver.findElement(By.xpath("//div[text()='"+Task+"']")).click();
-        driver.findElement(By.xpath("//div[text()='"+Task+"']")).clear();
+        driver.findElement(By.xpath("//div[contains (@class, 'public-DraftStyleDefault-block public-DraftStyleDefault-ltr')]//span//span[text()='"+  Task +"']")).clear();
+        Task="Update";
+
+        driver.findElement(By.xpath("//div[@class='public-DraftEditorPlaceholder-root']")).sendKeys(Task);
         driver.findElement(By.xpath("//button[@type='submit']")).click();
-        Thread.sleep(3000);
-        actualResult=driver.findElements(By.xpath(" //div[text()='"+Task+"'] ")).size();
-        Assertions.assertTrue(actualResult >= 1
-                ,"ERROR The project was not created");
 
+        //deleteTask
+        action.moveToElement(
+                driver.findElement(By.xpath("//div[contains(@class, 'task_content') and text()='" +  Task + "']"))
+        ).perform();
+        driver.findElement(By.xpath("//div[contains(@class,'task_list_item__actions')]/button[@data-action-hint='task-overflow-menu']")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[@ data-action-hint='task-overflow-menu-delete']")).click();
+        Thread.sleep(1000);
+        driver.switchTo().activeElement().sendKeys(Keys.ENTER);
+        Thread.sleep(2000);
 
-
-
-
-
-
-
-//        driver.findElement(By.id("NewItemContentInput")).sendKeys("Eynar");
-//        driver.findElement(By.id("NewItemAddButton")).click();
-//
-//        // create update
-//        driver.findElement(By.xpath("//div[@class=\"ItemContentDiv\" and text()='Eynar']")).click();
-//        driver.findElement(By.id("ItemEditTextbox")).clear();
-//        driver.findElement(By.id("ItemEditTextbox")).sendKeys("Update\n");
-//        Thread.sleep(5000);
-
+        //deleteproyect
+        driver.findElement(By.xpath("//*[@id='editor']/div[2]/header/div/div/button[3]")).click();
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//div[text()='Eliminar proyecto']")).click();
+        driver.findElement(By.xpath("//span[text()='Eliminar'] ")).click();
+        Thread.sleep(2000);
     }
 }
